@@ -105,7 +105,7 @@
    the query."
   [query path]
   (letfn [(query-template* [loc path]
-            (if (empty? path)
+            (if (or (nil? loc) (empty? path))
               loc
               (let [node (zip/node loc)]
                 (if (vector? node) ;; SUBQUERY

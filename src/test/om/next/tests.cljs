@@ -1728,3 +1728,17 @@
     (testing "Merge works when a query is passed as an argument."
       (is (= expected (merge-idents {} config response query))))))
 
+
+(defui LinkedItem
+  static om/IQuery
+  (query [this] [:a]))
+
+(defui RootWithLinks
+  static om/IQuery
+  (query [this] [{[:a '_] (om/get-query LinkedItem)}]))
+
+(deftest test-index-queries-with-links
+  (let [idx (om/indexer)]
+    (is (contains? (p/index-root idx RootWithLinks) :class->components))))
+
+(run-tests)
